@@ -17,6 +17,25 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.main {
+    text-align: center;
+    font-family: bold;
+    font-size: 40px;
+}
+div.about p.about {
+    font-size: 25px;
+    text-justify: initial;
+    text-align: center;
+    font-style: oblique;
+}
+
+div.about {
+    margin-left: 40px;
+    margin-top: 100px;
+    margin-right: 40px;
+    margin-bottom: 40px;
+    padding-bottom: 200px;
+    padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
 }

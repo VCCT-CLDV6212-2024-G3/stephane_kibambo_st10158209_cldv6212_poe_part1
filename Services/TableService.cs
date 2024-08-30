@@ -1,9 +1,7 @@
 ﻿
+
 using Azure.Data.Tables;
 using st10158209.Models;
-
-
-
 
 
 namespace st10158209.Services

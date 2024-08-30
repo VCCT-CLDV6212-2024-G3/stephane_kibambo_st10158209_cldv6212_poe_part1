@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using st10158209.Models;
 using st10158209.Services;
+using st10158209.Models;
+
 
 namespace st10158209.Controllers
 {
@@ -23,6 +24,22 @@ namespace st10158209.Controllers
         {
             return View();
         }
+        public IActionResult file()
+        {
+            return View();
+        }
+        public IActionResult order()
+        {
+            return View();
+        }
+        public IActionResult contract()
+        {
+            return View();
+        }
+        public IActionResult thank_you()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> UploadImage(IFormFile file)
@@ -30,9 +47,9 @@ namespace st10158209.Controllers
             if (file != null)
             {
                 using var stream = file.OpenReadStream();
-                await _blobService.UploadBlobAsync("product-images", file.FileName, stream);
+                await _blobService.UploadBlobAsync("images", file.FileName, stream);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("order");
         }
         [HttpPost]
         public async Task<IActionResult> AddCustomerProfile(CustomerProfile profile)
@@ -41,14 +58,14 @@ namespace st10158209.Controllers
             {
                 await _tableService.AddEntityAsync(profile);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("file");
         }
 
         [HttpPost]
         public async Task<IActionResult> ProcessOrder(string orderId)
         {
-            await _queueService.SendMessageAsync("order-processing", $"Processing order {orderId}");
-            return RedirectToAction("Index");
+            await _queueService.SendMessageAsync("order", $"Processing order={orderId}");
+            return RedirectToAction("contract");
         }
 
         [HttpPost]
@@ -57,9 +74,9 @@ namespace st10158209.Controllers
             if (file != null)
             {
                 using var stream = file.OpenReadStream();
-                await _fileService.UploadFileAsync("contracts-logs", file.FileName, stream);
+                await _fileService.UploadFileAsync("contracts", file.FileName, stream);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("thank_you");
         }
     }
 }
