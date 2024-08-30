@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using st10158209.Models;
 using st10158209.Services;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace SemesterTwo.Controllers
+namespace st10158209.Controllers
 {
     public class HomeController : Controller
     {
@@ -36,7 +34,33 @@ namespace SemesterTwo.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> AddCustomerProfile(CustomerProfile profile)
+        {
+            if (ModelState.IsValid)
+            {
+                await _tableService.AddEntityAsync(profile);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessOrder(string orderId)
+        {
+            await _queueService.SendMessageAsync("order-processing", $"Processing order {orderId}");
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadContract(IFormFile file)
+        {
+            if (file != null)
+            {
+                using var stream = file.OpenReadStream();
+                await _fileService.UploadFileAsync("contracts-logs", file.FileName, stream);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
-
 
