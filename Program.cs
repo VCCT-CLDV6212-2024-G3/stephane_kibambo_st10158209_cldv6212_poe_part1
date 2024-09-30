@@ -12,11 +12,17 @@ namespace st10158209.Services
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Register HttpClient in the DI container
+            builder.Services.AddHttpClient();
+
             // Register your custom services
             builder.Services.AddSingleton<BlobService>();
             builder.Services.AddSingleton<TableService>();
-            builder.Services.AddSingleton<QueueService>();
+            builder.Services.AddSingleton<QueueService>(); // If IQueueService is implemented by QueueService
             builder.Services.AddSingleton<FileService>();
+
+            // If QueueService is implementing an interface, use this:
+            // builder.Services.AddSingleton<IQueueService, QueueService>();
 
             var app = builder.Build();
 
